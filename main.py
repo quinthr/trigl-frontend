@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, session, redirect, make_response, url_for, flash, jsonify, g, abort, send_from_directory
 from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
+from flask_session import Session
 from flask_cors import CORS
 from base64 import b64encode
 import os, requests, json, math, jsonpickle, uuid
@@ -9,35 +10,39 @@ UPLOAD_FOLDER = 'uploads/'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 ALLOWED_IMAGES = {'png', 'jpg', 'jpeg'}
 
-server = Flask(__name__)
-server.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-CORS(server)
-server.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-server.config['USE_SESSION_FOR_NEXT'] = True
-server.config['CORS_HEADERS'] = 'Content-Type'
-server.config['SECRET_KEY'] = 'thisissecret'
-server.secret_key = os.urandom(24)
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+CORS(app)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['USE_SESSION_FOR_NEXT'] = True
+app.config['CORS_HEADERS'] = 'Content-Type'
+app.config['SECRET_KEY'] = 'thisissecret'
+app.secret_key = os.urandom(24)
+PERMANENT_SESSION_LIFETIME = 43200
+SESSION_COOKIE_NAME = 'TRIGL-INDUSTRY'
+app.config.from_object(__name__)
+Session(app)
 
-@server.errorhandler(404)
+@app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
 
-@server.errorhandler(401)
+@app.errorhandler(401)
 def unauthorized_page(e):
     return render_template('401.html'), 401
 
-@server.errorhandler(500)
-def internal_server_error(e):
+@app.errorhandler(500)
+def internal_app_error(e):
     return render_template('500.html'), 500
 
-@server.route('/')
+@app.route('/')
 def index():
     if 'token' in session:
         return redirect(url_for('dashboard'))
     else:
         return render_template('index.html', error=None)
 
-@server.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def login():
     session.pop('token', None)
     session.pop('username', None)
@@ -58,7 +63,7 @@ def login():
     elif response.status_code == 500:
         return render_template('500.html')
 
-@server.route('/logout')
+@app.route('/logout')
 def logout():
     if session:
         session.pop('token', None)
@@ -66,14 +71,14 @@ def logout():
         session.pop('name', None)
     return redirect(url_for('index'))
 
-@server.route('/dashboard', methods=['GET'])
+@app.route('/dashboard', methods=['GET'])
 def dashboard():
     if 'token' in session:
         return render_template('dashboard.html')
     else:
         abort(401)
 
-@server.route('/products', methods=['GET'])
+@app.route('/products', methods=['GET'])
 def products():
     if 'token' in session:
         return render_template('products.html')
@@ -88,11 +93,11 @@ def allowed_image(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_IMAGES
 
-@server.route('/uploads/<name>')
+@app.route('/uploads/<name>')
 def download_file(name):
-    return send_from_directory(server.config["UPLOAD_FOLDER"], name)
+    return send_from_directory(app.config["UPLOAD_FOLDER"], name)
 
-@server.route('/products/add-product', methods=['GET', 'POST'])
+@app.route('/products/add-product', methods=['GET', 'POST'])
 def add_product():
     if 'token' in session:
         if request.method == 'POST':
@@ -119,10 +124,10 @@ def add_product():
                 return render_template('add-product.html', error='No selected file')
             if file and allowed_image(file.filename):
                 filename = str(uuid.uuid4())+'.jpeg'
-                file.save(os.path.join(server.config['UPLOAD_FOLDER'], filename))
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             else:
                 return render_template('add-product.html', error='Invalid selected image')
-            image = send_from_directory(server.config["UPLOAD_FOLDER"], filename)
+            image = send_from_directory(app.config["UPLOAD_FOLDER"], filename)
             requests.post('https://hidden-ocean-47062.herokuapp.com/api/admin/products',
                           json={"name": productName, "subcategory": productSubcategory, "category": productCategory,
                                 "brand":productBrand, "price": productSellingPrice, "stock": productQuantity,
@@ -132,11 +137,11 @@ def add_product():
     else:
         abort(401)
 
-server.register_error_handler(404, page_not_found)
-server.register_error_handler(401, unauthorized_page)
-server.register_error_handler(500, internal_server_error)
+app.register_error_handler(404, page_not_found)
+app.register_error_handler(401, unauthorized_page)
+app.register_error_handler(500, internal_app_error)
 
 if __name__=='__main__':
-    server.run(host='localhost', port=8000, debug=True)
+    app.run(host='localhost', port=8000, debug=True)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
