@@ -11,6 +11,12 @@ ALLOWED_IMAGES = {'png', 'jpg', 'jpeg'}
 
 server = Flask(__name__)
 server.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+CORS(server)
+server.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+server.config['USE_SESSION_FOR_NEXT'] = True
+server.config['CORS_HEADERS'] = 'Content-Type'
+server.config['SECRET_KEY'] = 'thisissecret'
+server.secret_key = os.urandom(24)
 
 @server.errorhandler(404)
 def page_not_found(e):
@@ -126,18 +132,9 @@ def add_product():
     else:
         abort(401)
 
-
-
-
-CORS(server)
 server.register_error_handler(404, page_not_found)
 server.register_error_handler(401, unauthorized_page)
 server.register_error_handler(500, internal_server_error)
-server.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-server.config['USE_SESSION_FOR_NEXT'] = True
-server.config['CORS_HEADERS'] = 'Content-Type'
-server.config['SECRET_KEY'] = 'thisissecret'
-server.secret_key = os.urandom(24)
 
 if __name__=='__main__':
     server.run(host='localhost', port=8000, debug=True)
