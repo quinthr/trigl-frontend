@@ -16,10 +16,11 @@ CORS(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['USE_SESSION_FOR_NEXT'] = True
 app.config['CORS_HEADERS'] = 'Content-Type'
-app.config['SECRET_KEY'] = 'thisissecret'
+app.config['SECRET_KEY'] = 'triglindustry'
+app.config['SESSION_TYPE'] = 'memcached'
+app.config['PERMANENT_SESSION_LIFETIME'] =43200
+app.config['SESSION_COOKIE_NAME'] ='TRIGL-INDUSTRY'
 app.secret_key = os.urandom(24)
-PERMANENT_SESSION_LIFETIME = 43200
-SESSION_COOKIE_NAME = 'TRIGL-INDUSTRY'
 app.config.from_object(__name__)
 Session(app)
 
