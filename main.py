@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, session, redirect, make_response, url_for, flash, jsonify, g, abort, send_from_directory
-from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
