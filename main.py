@@ -129,10 +129,12 @@ def add_product():
             else:
                 return render_template('add-product.html', error='Invalid selected image')
             image = send_from_directory(app.config["UPLOAD_FOLDER"], filename)
+            url = request.url_root
+            image_url = url + image
             requests.post('https://hidden-ocean-47062.herokuapp.com/api/admin/products',
                           json={"name": productName, "subcategory": productSubcategory, "category": productCategory,
                                 "brand":productBrand, "price": productSellingPrice, "stock": productQuantity,
-                                "suppliers": "", "variation": productVariation, "image": image})
+                                "suppliers": "", "variation": productVariation, "image": image_url})
             return redirect(url_for('products'))
         return render_template('add-product.html', error=None)
     else:
