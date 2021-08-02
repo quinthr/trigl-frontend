@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product | TRI-GL</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="../static/css/dashboard.css">
+    <script src="../static/js/jquery.are-you-sure.js"></script>
+    <script src="../static/js/dashboard.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(function() {
+                $('#addProduct').areYouSure(
+                  {
+                    message: 'It looks like you have been editing something. '
+                           + 'If you leave before saving, your changes will be lost.'
+                  }
+                );
+            });
+        });
+    </script>
+    <style>
+        @import url("https://cdn.rawgit.com/mfd/f3d96ec7f0e8f034cc22ea73b3797b59/raw/856f1dbb8d807aabceb80b6d4f94b464df461b3e/gotham.css");
+        html *
+        {
+           font-family: GothamPro !important;
+        }
+        .dashboard-logo {
+            filter: invert(99%) sepia(100%) saturate(0%) hue-rotate(128deg) brightness(104%) contrast(100%);
+        }
+        .dashboard-logo-expanded {
+            width: 5rem;
+            height: 5rem;
+        }
+        .nav_logo {
+            padding: .5rem 0 .5rem .5rem;
+            display: inline-block;
+            text-align: center;
+        }
+        .nav_logo-name {
+            display: block;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        .header_img {
+            width:10.62rem;
+            border-radius: 0;
+        }
+        .header_img img {
+            margin-right: 1em;
+        }
+        .add-product-container .row .col label.form-label {
+            font-size:1rem;
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.75)
+        }
+        .add-product-container .row .col .form-control {
+            border-radius: 24px;
+        }
+        .btn-product-save {
+            margin-top:1.1em;
+            font-size: 0.9rem;
+            border-radius: 16px;
+            background: rgba(139,0,0,0.50);
+            color:rgba(255,255,255,0.5);
+            border:0 !important;
+            width:5.5rem;
+            display: inline-block;
+        }
+        .btn-product-save:hover {
+            background: rgba(139,0,0,1);
+        }
+        .btn-product-cancel {
+            margin-right:1.1em;
+            margin-top:1em;
+            font-size: 0.9rem;
+            border-radius: 16px;
+            background: rgba(0,0,0,0.25);
+            color:rgba(255,255,255,0.5);
+            border:0 !important;
+            width:5.5rem;
+        }
+        .btn-product-cancel:hover {
+            background: rgba(0,0,0,1);
+        }
+        .product-image-upload {
+            display:block;
+            width: 2.5rem;
+            vertical-align: middle;
+            margin-left:auto;
+            margin-right:auto;
+            height: 100%;
+            filter: invert(74%) sepia(0%) saturate(0%) hue-rotate(182deg) brightness(87%) contrast(89%);
+            cursor: pointer;
+        }
+        .product-image-upload:hover {
+            transition-duration: 1s;
+            filter: invert(100%) sepia(0%) saturate(2756%) hue-rotate(18deg) brightness(119%) contrast(80%);
+        }
+        #imageUploaded {
+            display:block;
+            width: 100%;
+            vertical-align: middle;
+            margin-left:auto;
+            margin-right:auto;
+            height: 100%;
+            max-height: 100%;
+            cursor: pointer;
+        }
+        #imageUploaded:hover {
+            transition-duration: 1s;
+            filter:brightness(85%) opacity(80%);
+        }
+        .row-image {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body id="body-pd">
+    <header class="header" id="header">
+        <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+        <div class="header_img">
+            <div>
+                <img src="../static/images/account_circle_black_24dp.svg" alt="">
+            </div>
+            <div style="line-height: 1; padding:7.5px 5px 5px 5px;">
+                <span style="font-weight: 600">Givenchy</span>
+                <span style="font-size:12px;">Admin</span>
+            </div>
+
+        </div>
+    </header>
+    <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+            <div>
+                <a href="/dashboard" class="nav_logo">
+                    <img src="../static/images/Tri-gl%20logo.svg" width="40" height="40" class="dashboard-logo">
+                    <span class="nav_logo-name" style="display: none;">TRI-GL Industrial Trading</span>
+                </a>
+                <div class="nav_list">
+                    <a href="/dashboard" class="nav_link"> <i class='bx bx-grid-alt nav_icon'></i> <span class="nav_name">Dashboard</span> </a>
+                    <a href="#" class="nav_link"> <i class='bx bx-group nav_icon'></i> <span class="nav_name">Users</span> </a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav_link dropdown-toggle active" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        style="margin-bottom:0; display: inline-flex;">
+                            <i class='bx bx-archive nav_icon'></i>
+                            <span class="nav_name" style="width:auto;">
+                                Products
+                            </span>
+                        </a>
+                        <div class="dropdown-menu" role="menu" aria-labelledby="navbarDropdown" style="background: #8B0000; border:0; font-size:14px; width:100%; margin-left:auto; margin-right:auto; display:block;">
+                          <a class="dropdown-item nav_link" href="/products" style="margin-bottom:0; margin-left: 4em;"><i class='bx bx-slider nav_icon'></i> <span class="nav_name">Manage</span> </a>
+                          <a class="dropdown-item nav_link active" href="/products/add-product" style="margin-bottom:0; margin-left: 4em;"><i class='bx bx-plus nav_icon'></i> <span class="nav_name">Add</span> </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="/logout" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">Log Out</span> </a>
+        </nav>
+    </div>
+    <!--Container Main start-->
+    <div class="height-100 container-xl" style="padding-right: 1rem; max-width: 100%">
+        <form name="addProduct" id="addProduct" class="needs-validation" enctype=multipart/form-data method="post" action="#" novalidate>
+            <h1 style="color:black; filter: opacity(75%); font-weight: bold; padding:0.25em; font-size:2.25em; margin-top:8px;">
+                Add Product
+            </h1>
+            <hr style="border:0.5px black; filter:opacity(75%); margin:0;">
+            <div class="row">
+                <div class="col-lg-4" style="margin-top:1.1rem; text-transform: uppercase;">
+                    <h3 style="font-size: 1rem; font-weight: 600; color: rgba(0, 0, 0, 0.75);">
+                        Product Image
+                    </h3>
+                </div>
+                <div class="col-lg-6" style="margin-top:1.1rem; text-transform: uppercase;">
+                    <h3 style="font-size: 1rem; font-weight: 600; color: rgba(0, 0, 0, 0.75);">
+                        Product Data
+                    </h3>
+                </div>
+                <div class="col-lg-2" style="display: inline-block; text-align: right;">
+                    <button class="btn btn-primary btn-product-save" type="submit" style="">Save</button>
+                    <a href="/products" class="btn btn-primary btn-product-cancel" role="button">
+                        Cancel
+                    </a>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4" style="padding: 0rem 3rem; margin-top: 1em;">
+                    <div class="row row-image" style="height:29rem; width:100%; border: 0.5px solid rgba(0,0,0,0.75); border-radius: 10px; background:rgba(0,0,0,0.75);">
+                        <input type="file" name="file" accept="image/*" id="file" class="form-control" autocomplete="off" style="display: none;" required>
+                        <label for="file">
+                            <img src="" id="imageUploaded" style="z-index: 2; display:none;" aria-label="Change product image" />
+                            <img src="../static/images/mono-item-add.svg" id="imageUploadIcon" class="product-image-upload" style=""  />
+                        </label>
+                        <div class="invalid-feedback" style="position: absolute; bottom: 37%; width: auto; height: 2rem;">
+                              Please upload the product image.
+                        </div>
+                    </div>
+                    {% if error %}
+                      <div class="alert alert-danger alert-dismissible fade show" role="alert" style="padding-right:1.5rem; width: 95%; margin-top:1em;">
+                        <strong>{{ error }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="padding: 0.5rem; font-size: 12px;"></button>
+                      </div>
+                    {% else %}
+                    {% endif %}
+                </div>
+                <div class="col-lg-8">
+                    <div class="container add-product-container" style="border-radius: 16px; background: rgba(0, 0, 0, 0.05); padding: 2em 4em; margin-top: 1em; height: 75vh;">
+                        <div class="row" style="margin-bottom:1.5em;">
+                          <div class="col">
+                            <label for="productName" class="form-label">Product Name</label>
+                            <input type="text" class="form-control" placeholder="Product Name" id="productName" name="productName" aria-label="productName" required>
+                            <div class="invalid-feedback">
+                              Please provide the product name.
+                            </div>
+                          </div>
+                          <div class="col">
+                            <label for="productID" class="form-label">Product ID</label>
+                            <input type="text" class="form-control" placeholder="Product ID" id="productID" name="productID" aria-label="productID" readonly>
+                          </div>
+                        </div>
+                        <div class="row" style="margin-bottom:1.5em;">
+                            <div class="col">
+                                <label for="productDescription" class="form-label">Product Description</label>
+                                <textarea class="form-control" id="productDescription" name="productDescription" rows="8" required></textarea>
+                                <div class="invalid-feedback">
+                                  Please provide the product description.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:1.5em;">
+                          <div class="col">
+                            <label for="productCategory" class="form-label">Category</label>
+                            <select type="text" class="form-control" placeholder="Select Category" id="productCategory" name="productCategory" aria-label="productCategory" required>
+                                <option value="" disabled selected>Select Category</option>
+                                <option value="Glassware">Glassware</option>
+                                <option value="Chemicals">Chemicals</option>
+                                <option value="Laboratory Supplies">Laboratory Supplies</option>
+                                <option value="Laboratory Equipment">Laboratory Equipment</option>
+                                <option value="PPE">PPE</option>
+                                <option value="Industrial Tools">Industrial Tools</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                  Please select a product category.
+                            </div>
+                          </div>
+                          <div class="col">
+                            <label for="productSubcategory" class="form-label">Subcategory</label>
+                            <select type="text" class="form-control" placeholder="Select Subcategory" id="productSubcategory" name="productSubcategory" aria-label="productSubcategory" required disabled>
+                                <option value="" disabled selected>Select a Category first</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                  Please select a product subcategory.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row" style="margin-bottom:1.5em;">
+                            <div class="col col-lg-3">
+                                <label for="productBrand" class="form-label">Brand</label>
+                                <select type="text" class="form-control" placeholder="Select Brand" id="productBrand" name="productBrand" aria-label="productBrand" required>
+                                    <option value="" disabled selected>Select Brand</option>
+                                    <option value="Generic">Generic</option>
+                                    <option value="Pyrex">Pyrex</option>
+                                    <option value="Borosil">Borosil</option>
+                                    <option value="SterGlass">SterGlass</option>
+                                    <option value="Biologix">Biologix</option>
+                                    <option value="Merck">Merck</option>
+                                    <option value="Chemsupply">Chemsupply</option>
+                                    <option value="Ajax">Ajax</option>
+                                    <option value="Hanna Instruments">Hanna Instruments</option>
+                                    <option value="Whatman">Whatman</option>
+                                    <option value="Brand">Brand</option>
+                                    <option value="Tolsen">Tolsen</option>
+                                    <option value="Lotus">Lotus</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                  Please provide the product brand.
+                                </div>
+                                <label for="productQuantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="productQuantity" name="productQuantity" aria-label="productQuantity" required>
+                                <div class="invalid-feedback">
+                                  Please provide the quantity.
+                                </div>
+                            </div>
+                            <div class="col col-lg-3">
+                                <label for="productVariation" class="form-label">Variation</label>
+                                <input type="text" class="form-control" id="productVariation" maxlength="3" name="productVariation" aria-label="productVariation" required>
+                                <div class="invalid-feedback">
+                                  Please provide the variation.
+                                </div>
+                                <label for="productSellingPrice" class="form-label">Selling Price</label>
+                                <input type="number" class="form-control" id="productSellingPrice" name="productSellingPrice" aria-label="productSellingPrice" required>
+                                <div class="invalid-feedback">
+                                  Please provide the selling price.
+                                </div>
+                            </div>
+                            <div class="col col-lg-6">
+                                <label for="productTags" class="form-label">Product Tags</label>
+                                <textarea class="form-control" id="productTags" name="productTags" rows="5" required></textarea>
+                                <div class="invalid-feedback">
+                                  Please provide the product tags.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--Container Main end-->
+    <script>
+        $(document).ready(function () {
+            file.onchange = evt => {
+              const [item] = file.files;
+              if (item) {
+                imageUploaded.src = URL.createObjectURL(item);
+                imageUploaded.style.display = "block";
+                imageUploadIcon.style.display = "none";
+              }
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#productCategory").change(function () {
+                var val = $(this).val();
+                if (val == "Glassware") {
+                    $("#productSubcategory").html("" +
+                        "<option value='' disabled selected>Select Subcategory</option>" +
+                        "<option value='Tubes'>Tubes</option>" +
+                        "<option value='Beakers'>Beakers</option>" +
+                        "<option value='Flasks'>Flasks</option>" +
+                        "<option value='Bottles'>Bottles</option>" +
+                        "<option value='Funnels'>Funnels</option>" +
+                        "<option value='Slides'>Slides</option>" +
+                        "<option value='Dishes'>Dishes</option>" +
+                        "<option value='Bottles'>Bottles</option>"
+                    );
+                    $("#productSubcategory").prop('disabled', false);
+                } else if (val == "Chemicals") {
+                    $("#productSubcategory").html("" +
+                        "<option value='Chemicals' selected>Chemicals</option>"
+                    );
+                    $("#productSubcategory").prop('disabled', false);
+                } else if (val == "Laboratory Supplies") {
+                    $("#productSubcategory").html("" +
+                        "<option value='' disabled selected>Select Subcategory</option>" +
+                        "<option value='Indicators'>Indicators</option>" +
+                        "<option value='Filters'>Filters</option>" +
+                        "<option value='Medical'>Medical</option>" +
+                        "<option value='Fabrication'>Fabrication</option>" +
+                        "<option value='Kits'>Kits</option>"
+                    );
+                    $("#productSubcategory").prop('disabled', false);
+                } else if (val == "Laboratory Equipment") {
+                    $("#productSubcategory").html("" +
+                        "<option value='' disabled selected>Select Subcategory</option>" +
+                        "<option value='Fabrication'>Fabrication</option>" +
+                        "<option value='Medical'>Medical</option>" +
+                        "<option value='Electronics'>Electronics</option>" +
+                        "<option value='Others'>Others</option>"
+                    );
+                    $("#productSubcategory").prop('disabled', false);
+                }  else if (val == "PPE") {
+                    $("#productSubcategory").html("" +
+                        "<option value='' disabled selected>Select Subcategory</option>" +
+                        "<option value='Head'>Head</option>" +
+                        "<option value='Arm'>Arm</option>" +
+                        "<option value='Foot'>Foot</option>" +
+                        "<option value='Body'>Body</option>"
+                    );
+                    $("#productSubcategory").prop('disabled', false);
+                }   else if (val == "Industrial Tools") {
+                    $("#productSubcategory").html("" +
+                        "<option value='' disabled selected>Select Subcategory</option>" +
+                        "<option value='Measuring Instruments'>Measuring Instruments</option>" +
+                        "<option value='Hand Tools'>Hand Tools</option>" +
+                        "<option value='Fasteners'>Fasteners</option>"
+                    );
+                    $("#productSubcategory").prop('disabled', false);
+                }
+                else {
+                    $("#productSubcategory").html("" +
+                        "<option value='' disabled selected>Select a category first</option>"
+                    );
+                    $("#productSubcategory").prop('disabled', true);
+                }
+            });
+        });
+    </script>
+    <script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+      $( document ).ready(function() {
+          (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+              .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                  if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                  }
+
+                  form.classList.add('was-validated')
+                }, false)
+              })
+          })()
+      });
+    </script>
+
+    <script>
+
+        $("#header-toggle").click( function () {
+            $('.dashboard-logo').toggleClass('dashboard-logo-expanded');
+            $(".nav_logo-name").toggle();
+        });
+    </script>
+</body>
+</html>

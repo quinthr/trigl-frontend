@@ -1,0 +1,11 @@
+h1.heading-404 {
+    font-size:5rem;
+}
+h3.heading-404 {
+    font-size:2.5rem;
+}
+.btn-404 {
+    margin-right:auto;
+    margin-left:auto;
+    display:block;
+}
