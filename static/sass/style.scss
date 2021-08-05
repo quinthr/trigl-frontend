@@ -1,0 +1,26 @@
+@import "./variables";
+
+* {
+  font-family: $primaryFont;
+}
+
+.btn--trigl {
+  background-color: $primaryColor;
+  border-color: $primaryColor;
+  box-shadow: none;
+  &:hover {
+    background-color: $primaryColorDark;
+    border-color: $primaryColorDark;
+  }
+  &:active {
+    background-color: $primaryColorDark;
+    border-color: $primaryColorDark;
+  }
+  &:focus {
+    background-color: $primaryColorDark;
+    border-color: $primaryColorDark;
+    box-shadow: none;
+  }
+}
+
+@import "./login";

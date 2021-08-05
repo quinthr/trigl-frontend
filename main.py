@@ -3,6 +3,7 @@ from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 from flask_session import Session
 from flask_cors import CORS
+from sassutils.wsgi import SassMiddleware
 from base64 import b64encode
 import os, requests, json, math, jsonpickle, uuid
 
@@ -11,11 +12,11 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 ALLOWED_IMAGES = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-CORS(app)
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['USE_SESSION_FOR_NEXT'] = True
 app.config['CORS_HEADERS'] = 'Content-Type'
+CORS(app)
+app.config['USE_SESSION_FOR_NEXT'] = True
 app.config['SECRET_KEY'] = 'triglindustry'
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['PERMANENT_SESSION_LIFETIME'] =43200
@@ -23,6 +24,9 @@ app.config['SESSION_COOKIE_NAME'] ='TRIGL-INDUSTRY'
 app.secret_key = os.urandom(24)
 app.config.from_object(__name__)
 Session(app)
+app.wsgi_app = SassMiddleware(app.wsgi_app, {
+    'main': ('static/sass', 'static/css', '/static/css')
+})
 
 @app.errorhandler(404)
 def page_not_found(e):
