@@ -25,12 +25,12 @@
               <div class="row">
                 <div class="col-md-9 col-lg-8 mx-auto">
                   <div class="container login--form">
-                    <img src="../static/images/Tri-gl%20logo.svg" height="100" width="100" class="login__logo">
+                    <img src="{{ url_for('static', filename='images/Tri-gl%20logo.svg') }}" height="100" width="100" class="login__logo">
                     <h2 class="mb-4 align-self-center login__heading" align="center">WELCOME</h2>
                     <form name="login" id="login" class="needs-validation" method="post" action="{{ url_for('login') }}" novalidate>
                       <div class="input-group login__form--input login__form--input--1 has-validation">
                         <div class="input-group-prepend login__group--prepend">
-                          <span class="input-group-text"><img src="../static/images/person_black_24dp.svg" class="login__icon--1"/></span>
+                          <span class="input-group-text"><img src="{{ url_for('static', filename='images/person_black_24dp.svg') }}" class="login__icon--1"/></span>
                         </div>
                         <input type="text" class="form-control" id="inputUsername" name="inputUsername" placeholder="Username" required>
                         <div class="invalid-feedback">
@@ -39,12 +39,12 @@
                       </div>
                       <div class="input-group login__form--input login__form--input--2 has-validation">
                         <div class="input-group-prepend login__group--prepend">
-                          <span class="input-group-text"><img src="../static/images/lock_black_24dp.svg" class="login__icon--2"/></span>
+                          <span class="input-group-text"><img src="{{ url_for('static', filename='images/lock_black_24dp.svg') }}" class="login__icon--2"/></span>
                         </div>
                         <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
                         <div class="input-group-append login__group--append">
-                          <span class="input-group-text"><img src="../static/images/visibility_off_black_24dp.svg" class="login__icon--off"/>
-                            <img src="../static/images/visibility_black_24dp.svg" class="login__icon--on"/>
+                          <span class="input-group-text"><img src="{{ url_for('static', filename='images/visibility_off_black_24dp.svg') }}" class="login__icon--off"/>
+                            <img src="{{ url_for('static', filename='images/visibility_black_24dp.svg') }}" class="login__icon--on"/>
                           </span>
                         </div>
                         <div class="invalid-feedback">
