@@ -135,10 +135,11 @@ def add_product():
             image = send_from_directory(app.config["UPLOAD_FOLDER"], filename)
             url = request.url_root
             image_url = str(url) + str(image)
-            requests.post('https://hidden-ocean-47062.herokuapp.com/api/admin/products',
+            response = requests.post('https://hidden-ocean-47062.herokuapp.com/api/admin/products',
                           json={"name": productName, "subcategory": productSubcategory, "category": productCategory,
                                 "brand":productBrand, "price": productSellingPrice, "stock": productQuantity,
-                                "suppliers": "", "variation": productVariation, "image": image_url})
+                                "suppliers": "test", "variation": productVariation, "image": image_url, "tags": productTagsArray})
+            print(response.status_code)
             return redirect(url_for('products'))
         return render_template('add-product.html', error=None)
     else:
